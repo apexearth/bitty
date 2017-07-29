@@ -1,0 +1,70 @@
+{
+  "name": "bitty",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "travis-develop": "npm run publish-develop",
+    "travis-master": "npm run publish",
+    "test": "npm-run-all test-eslint test-mocha",
+    "test-eslint": "eslint ./**/*.js",
+    "test-mocha": "mocha ps/**.spec.js",
+    "watch": "webpack --watch",
+    "watch-standalone": "webpack --watch --config webpack.config.standalone.js",
+    "build": "webpack -p --config webpack.config.js",
+    "build-standalone": "webpack -p --config webpack.config.standalone.js",
+    "upload": "gulp upload",
+    "upload-develop": "gulp upload-develop",
+    "upload-version": "gulp upload-version",
+    "publish": "npm-run-all test build upload upload-version",
+    "publish-develop": "npm-run-all test build upload-develop",
+    "copy-cordova": "gulp copy-cordova",
+    "publish-cordova": "npm-run-all build-standalone copy-cordova",
+    "build-cordova-release": "npm run publish-cordova && cd cordova && cordova build --release -- --keystore ~/android-keystore.jks --alias key0"
+  },
+  "author": {
+    "name": "Christopher Jacobs",
+    "email": "apexearth@gmail.com"
+  },
+  "eslintConfig": {
+    "parserOptions": {
+      "ecmaVersion": 6,
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "jsx": true
+      }
+    },
+    "rules": {
+      "semi": [
+        "error",
+        "never"
+      ],
+      "no-var": "error"
+    }
+  },
+  "devDependencies": {
+    "babel-core": "^6.24.0",
+    "babel-loader": "^6.4.1",
+    "babel-polyfill": "^6.23.0",
+    "babel-preset-es2015": "^6.24.0",
+    "babel-preset-react": "^6.23.0",
+    "chai": "^3.5.0",
+    "css-loader": "^0.27.3",
+    "img-loader": "^2.0.0",
+    "eslint": "^3.19.0",
+    "extract-text-webpack-plugin": "^2.1.0",
+    "gulp": "^3.9.1",
+    "gulp-s3-upload": "^1.6.4",
+    "less": "^2.7.2",
+    "less-loader": "^4.0.2",
+    "mocha": "^3.2.0",
+    "npm-run-all": "^4.0.2",
+    "style-loader": "^0.16.0",
+    "url-loader": "^0.5.8",
+    "webpack": "^2.3.2",
+    "webpack-dev-server": "^2.4.2"
+  },
+  "dependencies": {
+    "apex-app": "file:..\\apex-app"
+  }
+}
