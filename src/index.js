@@ -1,17 +1,13 @@
-require('./index.less')
-const {App, AppObject, createRenderer} = require("../../apex-app")
+require('./ui')
+const {createRenderer} = require("../../apex-app")
+const Game             = require('./game')
+const {maps}           = Game
 
-class BittyApp extends App {
-    constructor() {
-        super()
-        this.add(new AppObject({parent: this}))
-        this.objects[0].graphics.beginFill(0xffffff, 1)
-        this.objects[0].graphics.drawRect(0, 0, 10, 10)
-        this.objects[0].graphics.endFill()
-    }
-}
 
-createRenderer(new BittyApp(), {
+window.game = new Game()
+window.game.loadMap(maps.test)
+
+createRenderer(window.game, {
     rendererOptions: {
         backgroundColor: 0x333333
     }
