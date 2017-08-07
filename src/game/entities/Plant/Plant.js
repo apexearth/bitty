@@ -13,3 +13,5 @@ class Plant extends GameLifeform {
 }
 
 module.exports = Plant
+
+Plant.Trunk = Trunk

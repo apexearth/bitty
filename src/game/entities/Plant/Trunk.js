@@ -14,14 +14,21 @@ class Trunk {
         return this._branches
     }
 
-    createSides() {
-        let sides    = []
-        let count    = Math.floor(Math.random() * 10)
-        let position = Math.random() * Math.PI
-        let initialPosition = position
-        for (let i = 0; i < count; i++) {
+    get sides() {
+        return this._sides
+    }
 
+    createSides() {
+        let sides          = []
+        let count          = Math.floor(1 + Math.random() * 10)
+        let position       = Math.random() * Math.PI * 2
+        let individualSize = Math.random() * Math.PI * 2 / count
+        for (let i = 0; i < count; i++) {
+            let radiusPercentage = .8 + Math.random() * .2
+            sides.push({position, radiusPercentage})
+            position += individualSize
         }
+        return sides
     }
 }
 
