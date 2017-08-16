@@ -12,6 +12,7 @@ describe('Plant', () => {
         it('', () => {
             let trunk = new Trunk()
             expect(trunk.sides.length).to.be.within(1, 10)
+            console.log(trunk.sides)
         })
     })
 })

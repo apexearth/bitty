@@ -3,8 +3,6 @@ const {AppObject} = require("../../../apex-app")
 class GameObject extends AppObject {
     constructor(options) {
         super(options)
-
-        this.draw()
     }
 
     draw() {
