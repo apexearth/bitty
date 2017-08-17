@@ -6,6 +6,10 @@ class Branch {
         this.right = right
         this.angle = angle
     }
+
+    draw(seconds, graphics) {
+        
+    }
 }
 
 module.exports = Branch
