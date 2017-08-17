@@ -1,6 +1,10 @@
 class Branch {
-    constructor() {
-
+    constructor({
+                    left, right, angle
+                }) {
+        this.left  = left
+        this.right = right
+        this.angle = angle
     }
 }
 
