@@ -18,6 +18,11 @@ class Plant extends GameLifeform {
         this.graphics.clear()
         this.trunk.draw(seconds, this.graphics)
     }
+
+    update(seconds) {
+        //this.rotation += seconds
+        this.draw(seconds)
+    }
 }
 
 module.exports = Plant

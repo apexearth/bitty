@@ -1,5 +1,6 @@
-const {App} = require("../../../apex-app")
-const maps  = require('./maps')
+const {App}    = require("../../../apex-app")
+const maps     = require('./maps')
+const entities = require('./entities')
 
 class Game extends App {
     constructor() {
@@ -12,7 +13,6 @@ class Game extends App {
 
     update(seconds) {
         super.update(seconds)
-
     }
 
     static get maps() {

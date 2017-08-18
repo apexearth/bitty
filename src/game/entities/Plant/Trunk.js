@@ -11,7 +11,7 @@ class Trunk {
 
     createSides() {
         let sides = []
-        let count = Math.floor(Math.random() * 5 + 5)
+        let count = Math.floor(Math.random() * 53 + 5)
         for (let i = 0; i < count; i++) {
             sides.push(this.createSide(count, i))
         }
@@ -33,6 +33,7 @@ class Trunk {
         const cos  = x => Math.cos(x) * radius
         const sin  = y => Math.sin(y) * radius
         graphics.lineStyle(1, 0xffffff, .75)
+        graphics.beginFill(0xffffff, .5)
         for (let i = 0; i < this.sides.length; i++) {
             let side   = this.sides[i]
             let coords = {
@@ -41,15 +42,15 @@ class Trunk {
             }
             graphics.moveTo(coords.left.x, coords.left.y)
             graphics.lineTo(coords.right.x, coords.right.y)
-            this.drawBranch(graphics, coords, side.branch)
+            this.drawBranch(seconds, graphics, coords, side.branch)
         }
         graphics.endFill()
     }
 
-    createBranch(parent, children = 1, descendants = 5) {
+    createBranch(parent, children = 1, descendants = Math.floor(Math.random() * 5 + 5)) {
         let branch = {
-            length   : 20,
-            angle    : parent.angle + Math.PI * .05,
+            length   : 20 + Math.random() * 30,
+            angle    : parent.angle + Math.random() * Math.PI * .2 - Math.PI * .1,
             thickness: .95, // fix me! I'm really a .5 to 1 value :)
             branches : [],
             descendants
@@ -60,10 +61,13 @@ class Trunk {
         return branch
     }
 
-    drawBranch(graphics, coords, branch) {
+    drawBranch(seconds, graphics, coords, branch) {
         // Force a point if no children (temporary)
         if (branch.branches.length === 0)
             branch.thickness = .5
+
+        branch.angle  = branch.angle + (1 - Math.random() * 2) * seconds
+        branch.length = branch.length + (1 - Math.random() * 2) * seconds
 
         let midpointLeft  = {
             x: (coords.left.x * branch.thickness + coords.right.x * (1 - branch.thickness)),
@@ -83,14 +87,12 @@ class Trunk {
                 y: midpointRight.y + Math.sin(branch.angle) * branch.length
             }
         }
-        graphics.lineStyle(1, 0xffffff, .75)
         graphics.moveTo(coords.left.x, coords.left.y)
         graphics.lineTo(endCoords.left.x, endCoords.left.y)
         graphics.moveTo(coords.right.x, coords.right.y)
         graphics.lineTo(endCoords.right.x, endCoords.right.y)
 
-        branch.branches.forEach(branch => this.drawBranch(graphics, endCoords, branch))
-        graphics.endFill()
+        branch.branches.forEach(branch => this.drawBranch(seconds, graphics, endCoords, branch))
     }
 }
 
