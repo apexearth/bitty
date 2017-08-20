@@ -2,12 +2,17 @@ const Branch = require('./Branch')
 
 class Trunk {
     constructor() {
-        this.size   = 10 + Math.random() * 30
-        this._sides = this.createSides()
+        this.size        = 10 + Math.random() * 30
+        this._sides      = this.createSides()
+        this._sideCoords = []
     }
 
     get sides() {
         return this._sides
+    }
+
+    get sideCoords() {
+        return this._sideCoords
     }
 
     createSides() {
@@ -34,18 +39,25 @@ class Trunk {
         const cos  = x => Math.cos(x) * radius
         const sin  = y => Math.sin(y) * radius
         graphics.lineStyle(1, 0xffffff, .75)
-        graphics.beginFill(0xffffff, .5)
+        graphics.beginFill(0xffffff, .75)
         for (let i = 0; i < this.sides.length; i++) {
-            let side   = this.sides[i]
-            let coords = {
+            let side           = this.sides[i]
+            let coords         = {
                 left : {x: cos(side.left), y: sin(side.left)},
                 right: {x: cos(side.right), y: sin(side.right)}
             }
-            graphics.moveTo(coords.left.x, coords.left.y)
+            this.sideCoords[i] = coords
+            if (i === 0) {
+                graphics.moveTo(coords.left.x, coords.left.y)
+            }
             graphics.lineTo(coords.right.x, coords.right.y)
-            side.branch.draw(seconds, graphics, coords, side.branch)
         }
         graphics.endFill()
+
+        for (let i = 0; i < this.sides.length; i++) {
+            let side = this.sides[i]
+            side.branch.draw(seconds, graphics, this.sideCoords[i], side.branch)
+        }
     }
 }
 

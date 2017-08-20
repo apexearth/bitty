@@ -44,10 +44,14 @@ class Branch {
                 y: midpointRight.y + Math.sin(this.angle) * this.length
             }
         }
+
+        graphics.lineStyle(1, 0xffffff, .75)
+        graphics.beginFill(0xffffff, .5)
         graphics.moveTo(coords.left.x, coords.left.y)
         graphics.lineTo(endCoords.left.x, endCoords.left.y)
-        graphics.moveTo(coords.right.x, coords.right.y)
         graphics.lineTo(endCoords.right.x, endCoords.right.y)
+        graphics.lineTo(coords.right.x, coords.right.y)
+        graphics.endFill()
 
         this.branches.forEach(branch => branch.draw(seconds, graphics, endCoords))
     }
