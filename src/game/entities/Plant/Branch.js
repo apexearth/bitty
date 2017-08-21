@@ -1,38 +1,59 @@
 class Branch {
     constructor({
+                    trunk,
                     parent,
-                    children,
-                    descendants,
-                    length = 20
+                    children = 1,
+                    limitDecendants = 1,
+                    length = .1
                 }) {
-        this.length      = length + Math.random() * 20
-        this.angle       = parent.angle + Math.random() * Math.PI * .5 - Math.PI * .25
-        this.thickness   = .90 // fix me! I'm really a .5 to 1 value :)
-        this.branches    = []
-        this.descendants = descendants
+        this.trunk    = trunk
+        this.parent   = parent
+        this.length   = length
+        this.angle    = parent.angle + Math.random() * Math.PI * .4 - Math.PI * .2
+        this.branches = []
+        this.energy   = 0
 
-        for (let i = 0; i < children && descendants; i++) {
+        trunk.branchCount += 1
+
+        for (let i = 0; i < children && limitDecendants; i++) {
             this.branches.push(new Branch({
-                parent     : this,
-                children   : 1 + Math.round(Math.random()),
-                descendants: descendants - 1
+                trunk          : this.trunk,
+                parent         : this,
+                children       : 1 + Math.round(Math.random()),
+                limitDecendants: limitDecendants - 1
             }))
         }
         return this
     }
 
+    update(seconds) {
+        let growSelf = this.length < 20
+        if (growSelf) {
+            this.length += this.energy / (this.branches.length + 1)
+        }
+        if (this.branches.length < 2 && (this.length >= 20 || Math.random() < .005 * seconds)) {
+            this.branches.push(new Branch({
+                trunk : this.trunk,
+                parent: this
+            }))
+        }
+        this.branches.forEach(branch => {
+            branch.energy += this.energy / (this.branches.length + (growSelf ? 1 : 0))
+            branch.update(seconds)
+        })
+        this.energy = 0
+    }
+
     draw(seconds, graphics, coords) {
-        // Force a point if no children (temporary)
-        if (this.branches.length === 0)
-            this.thickness = .5
+        let thickness = .95
 
         let midpointLeft  = {
-            x: (coords.left.x * this.thickness + coords.right.x * (1 - this.thickness)),
-            y: (coords.left.y * this.thickness + coords.right.y * (1 - this.thickness))
+            x: (coords.left.x * thickness + coords.right.x * (1 - thickness)),
+            y: (coords.left.y * thickness + coords.right.y * (1 - thickness))
         }
         let midpointRight = {
-            x: (coords.left.x * (1 - this.thickness) + coords.right.x * this.thickness),
-            y: (coords.left.y * (1 - this.thickness) + coords.right.y * this.thickness)
+            x: (coords.left.x * (1 - thickness) + coords.right.x * thickness),
+            y: (coords.left.y * (1 - thickness) + coords.right.y * thickness)
         }
         let endCoords     = {
             left : {

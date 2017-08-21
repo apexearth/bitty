@@ -1,10 +1,14 @@
 const Branch = require('./Branch')
 
 class Trunk {
-    constructor() {
-        this.size        = 10 + Math.random() * 30
+    constructor(plant) {
+        this.plant       = plant
+        this.size        = 1
         this._sides      = this.createSides()
         this._sideCoords = []
+        this.branchCount = 0
+
+        this._energy = 0
     }
 
     get sides() {
@@ -13,6 +17,14 @@ class Trunk {
 
     get sideCoords() {
         return this._sideCoords
+    }
+
+    get energy() {
+        return this._energy
+    }
+
+    set energy(e) {
+        this._energy = e
     }
 
     createSides() {
@@ -30,8 +42,23 @@ class Trunk {
             right: Math.PI * 2 / count * (i + 1),
             angle: Math.PI * 2 / count * (i + .5), // Angle is the midpoint, representing direction.
         }
-        side.branch = new Branch({parent: side, children: 2, descendants: Math.floor(2 + Math.random() * 5)})
+        side.branch = new Branch({trunk: this, parent: side})
         return side
+    }
+
+    update(seconds) {
+        let energyForTrunk = this.energy * .1
+        this.size += energyForTrunk / 10
+        this.energy -= energyForTrunk
+
+        let energyForSides = this.energy
+        let energyPerSide  = energyForSides / this.sides.length
+        for (let i = 0; i < this.sides.length; i++) {
+            let side = this.sides[i]
+            side.branch.energy += energyPerSide
+            side.branch.update(seconds)
+        }
+        this.energy = 0
     }
 
     draw(seconds, graphics) {
