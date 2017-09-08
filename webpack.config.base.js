@@ -11,8 +11,8 @@ module.exports = entry => {
             entry
         ],
         output      : {
-            publicPath: "/src",
-            path      : __dirname + "/build",
+            publicPath: "/src/www",
+            path      : __dirname + "/www/build",
             filename  : "bundle.js"
         },
         watchOptions: {poll: 1000, aggregateTimeout: 300},
