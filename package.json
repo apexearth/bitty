@@ -8,7 +8,7 @@
     "travis-master": "npm run publish",
     "test": "npm-run-all test-eslint test-mocha",
     "test-eslint": "eslint ./**/*.js",
-    "test-mocha": "mocha ps/**.spec.js",
+    "test-mocha": "mocha src/**/*.spec.js",
     "watch": "webpack --watch",
     "watch-standalone": "webpack --watch --config webpack.config.standalone.js",
     "build": "webpack -p --config webpack.config.js",

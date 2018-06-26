@@ -6,7 +6,7 @@ describe("GameLifeform", function () {
 
     it("basics", function () {
         const game     = new Game()
-        const lifeform = new GameLifeform({parent: game})
+        const lifeform = new GameLifeform({app: game, parent: game})
         game.add(lifeform)
         expect(() => game.update(.1)).to.decrease(lifeform.stats, 'energy')
     })
